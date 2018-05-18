@@ -17,7 +17,7 @@ This document describes how to make existing ELiPS library working in Linux envi
     `sudo apt-get install autoconf`
 4. Install `libtool` as follows 
     `sudo apt-get install libtool-bin`
-5. git clone `https://github.com/eNipu/elips_bn_bls.git`
+5. git clone `https://github.com/ISecOkayamaUniv/elips_bn_bls12.git`
 6. From terminal enter to `<elips_bn_bls>` directory.
 7. Run the following commands 
     `autoreconf -i`
@@ -51,3 +51,4 @@ If you face `cannot open shared object file: No such file or directory` while ru
     `LD_LIBRARY_PATH=/usr/local/lib`
 4. Check if again of `echo $LD_LIBRARY_PATH`. If path is set then run again.
 
+Retun to github account https://github.com/ISecOkayamaUniv 
