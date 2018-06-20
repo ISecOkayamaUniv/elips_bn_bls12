@@ -75,3 +75,4 @@ void bn12_generate_random_point(EFp12 *R){
     EFp12_init(R);
     EFp12_rational_point_bn(R);
 }
+

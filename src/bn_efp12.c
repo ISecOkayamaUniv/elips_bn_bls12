@@ -33,28 +33,10 @@ void EFp12_init(EFp12 *P){
     P->infinity=0;
 }
 
-void EFp12_clear(EFp12 *P){
-    Fp12_clear(&P->x);
-    Fp12_clear(&P->y);
-}
-
-void EFp12_printf(EFp12 *P,char *str){
-    gmp_printf("%s",str);
-    if(P->infinity==0){
-        gmp_printf("(");
-        Fp12_printf(&P->x,"");
-        gmp_printf(",");
-        Fp12_printf(&P->y,"");
-        gmp_printf(")");
-    }else{
-        gmp_printf("infinity");
-    }
-}
-
-void EFp12_set(EFp12 *ANS,EFp12 *P){
-    Fp12_set(&ANS->x,&P->x);
-    Fp12_set(&ANS->y,&P->y);
-    ANS->infinity=P->infinity;
+void EFp12_set(EFp12 *ANS,EFp12 *A){
+    Fp12_set(&ANS->x,&A->x);
+    Fp12_set(&ANS->y,&A->y);
+    ANS->infinity=A->infinity;
 }
 
 void EFp12_set_ui(EFp12 *ANS,unsigned long int UI){
@@ -69,10 +51,28 @@ void EFp12_set_mpz(EFp12 *ANS,mpz_t A){
     ANS->infinity=0;
 }
 
-void EFp12_set_neg(EFp12 *ANS,EFp12 *P){
-    Fp12_set(&ANS->x,&P->x);
-    Fp12_set_neg(&ANS->y,&P->y);
-    ANS->infinity=P->infinity;
+void EFp12_set_neg(EFp12 *ANS,EFp12 *A){
+    Fp12_set(&ANS->x,&A->x);
+    Fp12_set_neg(&ANS->y,&A->y);
+    ANS->infinity=A->infinity;
+}
+
+void EFp12_clear(EFp12 *P){
+    Fp12_clear(&P->x);
+    Fp12_clear(&P->y);
+}
+
+void EFp12_printf(EFp12 *P,char *str){
+    printf("%s",str);
+    if(P->infinity==0){
+        printf("(");
+        Fp12_printf(&P->x,"");
+        printf(",");
+        Fp12_printf(&P->y,"");
+        printf(")");
+    }else{
+        printf("0");
+    }
 }
 
 void EFp12_rational_point_bn(EFp12 *P){
@@ -121,13 +121,10 @@ void EFp12_rational_point_bls12(EFp12 *P){
     Fp12_clear(&tmp2);
 }
 
-
-
 void EFp12_ECD(EFp12 *ANS,EFp12 *P){
     if(Fp12_cmp_zero(&P->y)==0){
         ANS->infinity=1;
         return;
-        
     }
     
     EFp12 Tmp_P;
@@ -138,14 +135,18 @@ void EFp12_ECD(EFp12 *ANS,EFp12 *P){
     Fp12_init(&tmp2);
     Fp12_init(&lambda);
     
-    Fp12_mul_ui(&tmp1,&Tmp_P.y,2);
+    Fp12_add(&tmp1,&Tmp_P.y,&Tmp_P.y);
+    
     Fp12_inv(&tmp1,&tmp1);
     Fp12_sqr(&tmp2,&Tmp_P.x);
-    Fp12_mul_ui(&tmp2,&tmp2,3);
+    Fp12_add(&lambda,&tmp2,&tmp2);
+    Fp12_add(&tmp2,&tmp2,&lambda);
     Fp12_mul(&lambda,&tmp1,&tmp2);
+    
     Fp12_sqr(&tmp1,&lambda);
-    Fp12_mul_ui(&tmp2,&Tmp_P.x,2);
+    Fp12_add(&tmp2,&Tmp_P.x,&Tmp_P.x);
     Fp12_sub(&ANS->x,&tmp1,&tmp2);
+    
     Fp12_sub(&tmp1,&Tmp_P.x,&ANS->x);
     Fp12_mul(&tmp2,&lambda,&tmp1);
     Fp12_sub(&ANS->y,&tmp2,&Tmp_P.y);
@@ -193,8 +194,8 @@ void EFp12_ECA(EFp12 *ANS,EFp12 *P1,EFp12 *P2){
     Fp12_sub(&tmp1,&Tmp_P1.x,&ANS->x);
     Fp12_mul(&tmp2,&lambda,&tmp1);
     Fp12_sub(&ANS->y,&tmp2,&Tmp_P1.y);
-    
-    //clear
+        
+    //clear 
     Fp12_clear(&tmp1);
     Fp12_clear(&tmp2);
     Fp12_clear(&lambda);

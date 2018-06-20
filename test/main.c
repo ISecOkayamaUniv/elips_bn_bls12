@@ -38,17 +38,49 @@
 int main(int argc, const char * argv[]) {
     
     bls12_inits();
-    bls12_print_parameters();
-    bls12_test_opt_ate_pairing();
     clear_parameters();
+    // bls12_print_parameters();
+    // bls12_test_opt_ate_pairing();
+    // clear_parameters();
     
-    init_bn();
-    print_curve_parameters();
-    bn12_test_x_ate_pairing();
-    bn12_test_plain_ate_pairing();
-    bn12_test_opt_ate_pairing();
+   // init_bn();
+    bls12_inits();
+    mpz_t scalar1, scalar2;
+    mpz_init(scalar1);
+    mpz_init(scalar2);
+    mpz_set_str(scalar1,"46656",10);
+    mpz_set_str(scalar2,"46656",10);
+
+    struct EFp12 P,Q, ANS;
+    EFp12_init(&P);
+    EFp12_init(&Q);
+    EFp12_init(&ANS);
+
+    bls12_generate_G2_point(&P);
+    printf("\n");
+    printf("\n");
+    EFp12_printf(&P,"G2 point=");
+    EFp12_SCM(&ANS,&P,scalar1);
+     printf("\n");
+    printf("\n");
+    EFp12_printf(&ANS,"SCL 1=");
+    
+    
+//    EFp12_ECD(&Q,&P);
+    EFp12_SCM(&Q,&P,scalar2);
+    printf("\n");
+    printf("\n");
+    EFp12_printf(&P,"G2 point=");
+    printf("\n");
+    printf("\n");
+    EFp12_printf(&Q,"SCL 2=");
+     printf("\n");
+    
+  // print_curve_parameters();
+    // bn12_test_x_ate_pairing();
+    // bn12_test_plain_ate_pairing();
+    // bn12_test_opt_ate_pairing();
     clear_parameters();
- 
     
     return 0;
 }
