@@ -1,2 +1,7 @@
 *.in
 *.m4
+*.o
+*.lo
+*.Plo
+*.out
+*.exe

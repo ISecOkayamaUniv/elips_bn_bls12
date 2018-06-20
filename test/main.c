@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
     mpz_t scalar1, scalar2;
     mpz_init(scalar1);
     mpz_init(scalar2);
-    mpz_set_str(scalar1,"46656",10);
+    mpz_set_str(scalar1,"59049",10);
     mpz_set_str(scalar2,"46656",10);
 
     struct EFp12 P,Q, ANS;
