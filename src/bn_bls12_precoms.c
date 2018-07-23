@@ -45,7 +45,7 @@ static mpz_t prime_p;
 void init_precoms(int curvetype){
     
     mpz_init(prime_p);
-    if (curvetype == 1) {
+    if (curvetype == 3) {
         mpz_set(prime_p,curve_parameters.prime);
     }
     else if (curvetype == 2){

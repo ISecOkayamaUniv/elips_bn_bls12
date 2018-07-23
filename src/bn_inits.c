@@ -30,5 +30,5 @@
 
 void init_bn(void){
     init_bn_settings();
-    init_precoms(1);
+    init_precoms(3);
 }
